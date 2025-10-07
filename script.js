@@ -6,11 +6,9 @@ const cardArray = [
   { name: 'lemon', img: '🍋' },
   { name: 'orange', img: '🍊' },
   { name: 'pear', img: '🍐' },
-  { name: 'pineapple', img: '🍍' },
   { name: 'strawberry', img: '🍓' },
   { name: 'rose', img: '🌹' },
   { name: 'tulip', img: '🌷' },
-  { name: 'sunflower', img: '🌻' },
   { name: 'camera', img: '📷' },
   { name: 'book', img: '📚' },
 ];
