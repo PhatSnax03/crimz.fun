@@ -8,14 +8,12 @@ const cardArray = [
   { name: 'pear', img: '🍐' },
   { name: 'pineapple', img: '🍍' },
   { name: 'strawberry', img: '🍓' },
-  { name: 'watermelon', img: '🍉' },
   { name: 'rose', img: '🌹' },
   { name: 'tulip', img: '🌷' },
   { name: 'sunflower', img: '🌻' },
   { name: 'camera', img: '📷' },
   { name: 'book', img: '📚' },
 ];
-
 let gameGrid = [...cardArray, ...cardArray].sort(() => 0.5 - Math.random());
 const grid = document.getElementById('grid');
 const scoreDisplay = document.getElementById('score');
