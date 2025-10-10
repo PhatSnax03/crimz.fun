@@ -34,12 +34,22 @@ body {
 
 /* --- Header + Music --- */
 .arcade-header { position:relative; text-align:center; width:100%; max-width:960px; }
+
+/* OPTION 2: pink→orange gradient neon with thin stroke for readability */
 .arcade-header h1 {
   font-family: "KarmaticArcade", sans-serif;
   font-size: clamp(2.2rem, 7vw, 4rem);
-  color: var(--accent);
-  text-shadow: 0 0 8px var(--accent), 0 0 22px var(--accent), 0 0 44px var(--accent);
+  background: linear-gradient(180deg, #ff66cc 0%, #ffb21f 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    0 0 6px  rgba(255,105,180,0.50),  /* neon pink outer glow */
+    0 0 12px rgba(255,153,  0,0.40),  /* soft orange mid glow */
+    0 0 28px rgba(255, 20,147,0.25);  /* deep pink aura */
+  -webkit-text-stroke: 1px #ff9b00;   /* thin darker edge for contrast */
+  letter-spacing: 2px;
 }
+
 .neon-flicker { animation: flicker 2.4s infinite; }
 @keyframes flicker { 0%,18%,22%,25%,53%,57%,100%{opacity:1} 20%,24%,55%{opacity:.35} }
 
