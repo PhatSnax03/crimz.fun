@@ -284,3 +284,46 @@ body {
   .c4-board  { width: min(92vw, 520px); }
   .ttt-board { width: min(92vw, 520px); }
 }
+
+/* =====================================
+   HEADER FONT COLOR — NEON PINK (LESS BRIGHT)
+   ===================================== */
+.arcade-header h1 {
+  font-family: "KarmaticArcade", sans-serif;
+  font-size: clamp(2rem, 7vw, 4rem);
+  color: #ff66cc; /* neon pink base */
+  text-shadow:
+    0 0 3px rgba(255, 102, 204, 0.8),
+    0 0 8px rgba(255, 102, 204, 0.6),
+    0 0 18px rgba(255, 51, 153, 0.4);
+  -webkit-text-stroke: 1px rgba(255, 120, 200, 0.3);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Add a subtle glow pulse only on mobile */
+@media (max-width: 800px) {
+  .arcade-header h1 {
+    animation: softPulse 3.5s ease-in-out infinite;
+  }
+
+  @keyframes softPulse {
+    0%, 100% {
+      text-shadow:
+        0 0 3px rgba(255, 102, 204, 0.8),
+        0 0 8px rgba(255, 102, 204, 0.6),
+        0 0 18px rgba(255, 51, 153, 0.4);
+    }
+    50% {
+      text-shadow:
+        0 0 5px rgba(255, 102, 204, 1),
+        0 0 12px rgba(255, 102, 204, 0.7),
+        0 0 22px rgba(255, 51, 153, 0.6);
+    }
+  }
+}
+
+/* Make sure other neon accents remain orange */
+:root {
+  --accent: #FAB12F;
+}
