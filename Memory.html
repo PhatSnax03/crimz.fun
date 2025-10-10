@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Memory Match | Crimz Arcade</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <audio id="bg-music" loop autoplay>
+    <source src="assets/music/memory.mp3" type="audio/mpeg" />
+  </audio>
+
+  <header class="arcade-header mem-header">
+    <a class="btn ghost" href="index.html">⬅ Back</a>
+    <h1>MEMORY MATCH</h1>
+    <button id="music-toggle" class="music-btn">🔊</button>
+  </header>
+
+  <main class="mem-wrap">
+    <section class="mem-status">
+      <div class="pill"><strong>Player 1</strong><span id="m-p1">0</span></div>
+      <div class="pill"><strong>Player 2</strong><span id="m-p2">0</span></div>
+      <div class="pill"><strong id="m-turn">Player 1’s turn</strong></div>
+      <button id="m-restart" class="btn">↻ Restart</button>
+    </section>
+
+    <section id="m-grid" class="mem-grid" aria-label="Memory grid"></section>
+  </main>
+
+  <!-- Confetti -->
+  <canvas id="confetti" class="confetti"></canvas>
+  <script>
+    function launchConfetti() {
+      const canvas = document.getElementById('confetti');
+      const ctx = canvas.getContext('2d');
+      const pieces = [];
+      const colors = ['#FAB12F', '#1E90FF', '#FF3E3E', '#4FC3F7'];
+      const w = canvas.width = window.innerWidth;
+      const h = canvas.height = window.innerHeight;
+      for (let i = 0; i < 120; i++) {
+        pieces.push({
+          x: Math.random() * w,
+          y: Math.random() * h - h,
+          size: 6 + Math.random() * 6,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speed: 3 + Math.random() * 3,
+          rotation: Math.random() * 360,
+        });
+      }
+      let frame = 0;
+      const draw = () => {
+        frame++;
+        ctx.clearRect(0, 0, w, h);
+        pieces.forEach(p => {
+          p.y += p.speed;
+          p.x += Math.sin(p.rotation) * 2;
+          p.rotation += 0.05;
+          if (p.y > h) p.y = -10;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(p.x, p.y, p.size, p.size);
+        });
+        if (frame < 100) requestAnimationFrame(draw);
+        else ctx.clearRect(0,0,w,h);
+      };
+      draw();
+    }
+
+    const M_SYMBOLS = ['🍎','🍌','🍒','🍇','🍋','🍊','🍐','🍓','🌹','🌷','📷','📚']; // 12 pairs
+    const mGrid = document.getElementById('m-grid');
+    const mP1 = document.getElementById('m-p1');
+    const mP2 = document.getElementById('m-p2');
+    const mTurn = document.getElementById('m-turn');
+    const mRestart = document.getElementById('m-restart');
+    let mDeck = [], mFlipped = [], mLock = false, mScores = { p1:0, p2:0 }, mPlayer = 1;
+
+    function mShuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]] } return a; }
+    function mBuildDeck(){ return mShuffle(M_SYMBOLS.flatMap(s => [{s},{s}])).map((c,i)=>({id:i,s:c.s,matched:false})); }
+    function mUpdateHUD(){ mP1.textContent=mScores.p1; mP2.textContent=mScores.p2; mTurn.textContent=mPlayer===1?"Player 1’s turn":"Player 2’s turn"; }
+    function mRender(){
+      mGrid.innerHTML='';
+      mDeck.forEach(card=>{
+        const wrap=document.createElement('div');
+        wrap.className='mem-card'; wrap.dataset.id=card.id;
+        const inner=document.createElement('div'); inner.className='mem-card-inner';
+        const back=document.createElement('div'); back.className='mem-face back'; back.textContent='？';
+        const front=document.createElement('div'); front.className='mem-face front'; front.textContent=card.s;
+        inner.append(back,front); wrap.append(inner);
+        if(card.matched) wrap.classList.add('matched');
+        wrap.addEventListener('click', mFlip);
+        mGrid.append(wrap);
+      });
+      mUpdateHUD();
+    }
+    function mFlip(e){
+      if(mLock) return;
+      const id=+e.currentTarget.dataset.id, card=mDeck.find(c=>c.id===id);
+      if(!card||card.matched||mFlipped.includes(id)) return;
+      e.currentTarget.classList.add('flipped'); mFlipped.push(id);
+      if(mFlipped.length===2){
+        mLock=true;
+        const [aId,bId]=mFlipped, a=mDeck.find(c=>c.id===aId), b=mDeck.find(c=>c.id===bId);
+        setTimeout(()=>{
+          if(a.s===b.s){
+            a.matched=b.matched=true;
+            document.querySelector(`.mem-card[data-id="${aId}"]`).classList.add('matched');
+            document.querySelector(`.mem-card[data-id="${bId}"]`).classList.add('matched');
+            if(mPlayer===1)mScores.p1++; else mScores.p2++;
+            if(mDeck.every(c=>c.matched)){
+              setTimeout(()=>{
+                const winner=mScores.p1===mScores.p2?"Draw!":(mScores.p1>mScores.p2?"Player 1 wins!":"Player 2 wins!");
+                launchConfetti();
+                alert(`${winner} (${mScores.p1}–${mScores.p2})`);
+              },120);
+            }
+          } else {
+            document.querySelector(`.mem-card[data-id="${aId}"]`).classList.remove('flipped');
+            document.querySelector(`.mem-card[data-id="${bId}"]`).classList.remove('flipped');
+            mPlayer=mPlayer===1?2:1;
+          }
+          mFlipped=[]; mLock=false; mUpdateHUD();
+        },520);
+      }
+    }
+    function mRestartGame(){ mScores={p1:0,p2:0}; mPlayer=1; mDeck=mBuildDeck(); mFlipped=[]; mLock=false; mRender(); }
+    mRestart.addEventListener('click', mRestartGame);
+    mRestartGame();
+  </script>
+</body>
+</html>
