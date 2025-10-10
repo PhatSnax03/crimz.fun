@@ -1,57 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Crimz Memory Match — 2 Player</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body data-theme="dark">
-    <main class="wrap">
-      <header class="topbar">
-        <h1>Crimz Memory Match</h1>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Crimz Arcade</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <audio id="bg-music" loop autoplay>
+    <source src="assets/music/arcade.mp3" type="audio/mpeg" />
+  </audio>
 
-        <div class="controls">
-          <label class="control">
-            <span>Difficulty</span>
-            <select id="difficulty">
-              <option value="16">Easy (16)</option>
-              <option value="24" selected>Normal (24)</option>
-              <option value="30">Hard (30)</option>
-            </select>
-          </label>
+  <header class="arcade-header">
+    <h1 class="neon-flicker">CRIMZ ARCADE</h1>
+    <button id="music-toggle" class="music-btn" aria-label="Toggle music">🔊</button>
+  </header>
 
-          <button id="themeToggle" class="btn secondary" aria-label="Toggle theme">🌗 Theme</button>
-          <button id="restart" class="btn">↻ Restart</button>
-        </div>
-      </header>
+  <main class="game-grid">
+    <a href="memory.html" class="game-card">
+      <img src="assets/images/memory-thumb.png" alt="Memory Match preview" />
+      <span>Memory Match</span>
+    </a>
+    <a href="connect4.html" class="game-card">
+      <img src="assets/images/connect4-thumb.png" alt="Connect 4 preview" />
+      <span>Connect 4</span>
+    </a>
+    <a href="tictactoe.html" class="game-card">
+      <img src="assets/images/tictactoe-thumb.png" alt="Tic Tac Toe preview" />
+      <span>Tic Tac Toe</span>
+    </a>
+  </main>
 
-      <section class="status">
-        <div class="pill">
-          <strong>Player 1</strong>
-          <span id="p1">0</span>
-        </div>
-        <div class="pill">
-          <strong>Player 2</strong>
-          <span id="p2">0</span>
-        </div>
-        <div class="pill">
-          <strong id="turn">Player 1’s turn</strong>
-          <small class="hint">match = extra turn</small>
-        </div>
-        <div class="pill">
-          <strong>Time</strong>
-          <span id="time">00:00</span>
-          <small id="best">Best — 00:00</small>
-        </div>
-      </section>
-
-      <section id="grid" class="grid grid--24" aria-label="Memory grid"></section>
-    </main>
-
-    <script src="script.js"></script>
-  </body>
+  <footer class="footer">© 2025 Crimz Arcade</footer>
+</body>
 </html>

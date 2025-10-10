@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Connect 4 | Crimz Arcade</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <audio id="bg-music" loop autoplay>
+    <source src="assets/music/connect4.mp3" type="audio/mpeg" />
+  </audio>
+
+  <header class="arcade-header">
+    <a class="btn ghost" href="index.html">⬅ Back</a>
+    <h1>CONNECT 4</h1>
+    <button id="music-toggle" class="music-btn">🔊</button>
+  </header>
+
+  <main class="center" style="width:100%;max-width:900px;">
+    <section class="mem-status">
+      <div class="pill"><strong>Turn</strong><span id="c4-turn">Player 1 (🟠)</span></div>
+      <div class="pill"><strong>Status</strong><span id="c4-winner">—</span></div>
+      <button id="c4-reset" class="btn">↻ Play Again</button>
+    </section>
+
+    <section id="c4-board" class="c4-board" aria-label="Connect Four board"></section>
+  </main>
+
+  <!-- Confetti -->
+  <canvas id="confetti" class="confetti"></canvas>
+  <script>
+    function launchConfetti() {
+      const canvas = document.getElementById('confetti');
+      const ctx = canvas.getContext('2d');
+      const pieces = [];
+      const colors = ['#FAB12F', '#1E90FF', '#FF3E3E', '#4FC3F7'];
+      const w = canvas.width = window.innerWidth;
+      const h = canvas.height = window.innerHeight;
+      for (let i = 0; i < 120; i++) {
+        pieces.push({
+          x: Math.random() * w,
+          y: Math.random() * h - h,
+          size: 6 + Math.random() * 6,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speed: 3 + Math.random() * 3,
+          rotation: Math.random() * 360,
+        });
+      }
+      let frame = 0;
+      const draw = () => {
+        frame++;
+        ctx.clearRect(0, 0, w, h);
+        pieces.forEach(p => {
+          p.y += p.speed;
+          p.x += Math.sin(p.rotation) * 2;
+          p.rotation += 0.05;
+          if (p.y > h) p.y = -10;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(p.x, p.y, p.size, p.size);
+        });
+        if (frame < 100) requestAnimationFrame(draw);
+        else ctx.clearRect(0,0,w,h);
+      };
+      draw();
+    }
+
+    const C4_ROWS=6, C4_COLS=7;
+    let c4 = Array.from({length:C4_ROWS},()=>Array(C4_COLS).fill(null));
+    let cPlayer='orange', cOver=false;
+
+    const cBoard = document.getElementById('c4-board');
+    const cTurn = document.getElementById('c4-turn');
+    const cWin  = document.getElementById('c4-winner');
+    const cReset= document.getElementById('c4-reset');
+
+    function c4Render(){
+      cBoard.innerHTML='';
+      for(let r=0;r<C4_ROWS;r++){
+        for(let c=0;c<C4_COLS;c++){
+          const cell=document.createElement('div');
+          cell.className='c4-cell';
+          if(c4[r][c]){
+            const d=document.createElement('div');
+            d.className='c4-disc '+c4[r][c];
+            cell.appendChild(d);
+          }
+          cell.addEventListener('click',()=>c4Drop(c));
+          cBoard.appendChild(cell);
+        }
+      }
+    }
+    function c4Drop(col){
+      if(cOver) return;
+      for(let r=C4_ROWS-1;r>=0;r--){
+        if(!c4[r][col]){
+          c4[r][col]=cPlayer;
+          c4Render();
+          if(c4Win(r,col)){
+            cWin.textContent = `🎉 ${cPlayer==='orange'?'Player 1 (🟠)':'Player 2 (🔵)'} wins!`;
+            cTurn.textContent='—';
+            launchConfetti();
+            cOver=true; return;
+          }
+          cPlayer = cPlayer==='orange'?'blue':'orange';
+          cTurn.textContent = cPlayer==='orange'?'Player 1 (🟠)':'Player 2 (🔵)';
+          return;
+        }
+      }
+    }
+    function c4Count(r,c,dr,dc){
+      let cnt=0;
+      for(let i=1;i<4;i++){
+        const nr=r+dr*i, nc=c+dc*i;
+        if(nr<0||nr>=C4_ROWS||nc<0||nc>=C4_COLS) break;
+        if(c4[nr][nc]===cPlayer) cnt++; else break;
+      }
+      return cnt;
+    }
+    function c4Win(r,c){
+      const dirs=[[1,0],[0,1],[1,1],[1,-1]];
+      for(const [dr,dc] of dirs){
+        let count=1+ c4Count(r,c,dr,dc) + c4Count(r,c,-dr,-dc);
+        if(count>=4) return true;
+      }
+      return false;
+    }
+    function c4Reset(){
+      c4 = Array.from({length:C4_ROWS},()=>Array(C4_COLS).fill(null));
+      cPlayer='orange'; cOver=false; cWin.textContent='—'; cTurn.textContent='Player 1 (🟠)'; c4Render();
+    }
+    cReset.addEventListener('click', c4Reset);
+    c4Render();
+  </script>
+</body>
+</html>

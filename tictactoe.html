@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tic Tac Toe | Crimz Arcade</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <audio id="bg-music" loop autoplay>
+    <source src="assets/music/tictactoe.mp3" type="audio/mpeg" />
+  </audio>
+
+  <header class="arcade-header">
+    <a class="btn ghost" href="index.html">⬅ Back</a>
+    <h1>TIC TAC TOE</h1>
+    <button id="music-toggle" class="music-btn">🔊</button>
+  </header>
+
+  <main class="center" style="width:100%;max-width:900px;">
+    <section class="mem-status">
+      <div class="pill"><strong>Player X</strong><span id="ttt-sx">0</span></div>
+      <div class="pill"><strong>Player O</strong><span id="ttt-so">0</span></div>
+      <div class="pill"><strong id="ttt-turn">Player X’s turn</strong></div>
+      <div class="pill">
+        <strong>Target</strong>
+        <span>
+          <select id="ttt-target" style="background:transparent;border:none;color:var(--text);font-weight:700;">
+            <option value="1">1</option>
+            <option value="3" selected>3</option>
+            <option value="5">5</option>
+          </select>
+        </span>
+      </div>
+    </section>
+
+    <section id="ttt-board" class="ttt-board" aria-label="Tic Tac Toe board"></section>
+
+    <div class="bar">
+      <button id="ttt-next" class="btn secondary" disabled>Next round</button>
+      <button id="ttt-reset" class="btn">↻ Reset match</button>
+    </div>
+  </main>
+
+  <!-- Confetti -->
+  <canvas id="confetti" class="confetti"></canvas>
+  <script>
+    function launchConfetti() {
+      const canvas = document.getElementById('confetti');
+      const ctx = canvas.getContext('2d');
+      const pieces = [];
+      const colors = ['#FAB12F', '#1E90FF', '#FF3E3E', '#4FC3F7'];
+      const w = canvas.width = window.innerWidth;
+      const h = canvas.height = window.innerHeight;
+      for (let i = 0; i < 120; i++) {
+        pieces.push({
+          x: Math.random() * w,
+          y: Math.random() * h - h,
+          size: 6 + Math.random() * 6,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speed: 3 + Math.random() * 3,
+          rotation: Math.random() * 360,
+        });
+      }
+      let frame = 0;
+      const draw = () => {
+        frame++;
+        ctx.clearRect(0, 0, w, h);
+        pieces.forEach(p => {
+          p.y += p.speed;
+          p.x += Math.sin(p.rotation) * 2;
+          p.rotation += 0.05;
+          if (p.y > h) p.y = -10;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(p.x, p.y, p.size, p.size);
+        });
+        if (frame < 100) requestAnimationFrame(draw);
+        else ctx.clearRect(0,0,w,h);
+      };
+      draw();
+    }
+
+    const tBoard = document.getElementById('ttt-board');
+    const tTurn  = document.getElementById('ttt-turn');
+    const tSX    = document.getElementById('ttt-sx');
+    const tSO    = document.getElementById('ttt-so');
+    const tNext  = document.getElementById('ttt-next');
+    const tReset = document.getElementById('ttt-reset');
+    const tTargetSel = document.getElementById('ttt-target');
+
+    let tArr = Array(9).fill('');
+    let tCur = 'X';
+    let tScore = {X:0,O:0};
+    let tLock = false;
+    let tTarget = Number(tTargetSel.value);
+
+    const T_LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+    function tRender(){
+      tBoard.innerHTML='';
+      tArr.forEach((m,i)=>{
+        const b=document.createElement('button');
+        b.className='ttt-cell'+(m?` ${m}`:'');
+        b.textContent=m;
+        if(m||tLock) b.disabled=true;
+        b.addEventListener('click', ()=>{
+          if(tLock||tArr[i]) return;
+          tArr[i]=tCur; tRender();
+          const rs=tCheck();
+          if(rs.done){ tFinish(rs); }
+          else { tCur=tCur==='X'?'O':'X'; tUpdate(); }
+        });
+        tBoard.appendChild(b);
+      });
+    }
+    function tUpdate(msg){
+      tTurn.textContent = msg || `${tCur==='X'?'Player X':'Player O'}’s turn`;
+      tSX.textContent = tScore.X; tSO.textContent = tScore.O;
+    }
+    function tCheck(){
+      for(const L of T_LINES){
+        const [a,b,c]=L;
+        if(tArr[a] && tArr[a]===tArr[b] && tArr[a]===tArr[c]) return {done:true,winner:tArr[a],line:L};
+      }
+      if(tArr.every(Boolean)) return {done:true,winner:null,line:null};
+      return {done:false};
+    }
+    function tHighlight(line){
+      if(!line) return;
+      [...tBoard.children].forEach((cell,idx)=>{ if(line.includes(idx)) cell.classList.add('ttt-win'); });
+    }
+    function tFinish({winner,line}){
+      tLock=true; tHighlight(line);
+      if(winner){
+        tScore[winner]+=1;
+        tUpdate(`Player ${winner} wins this round!`);
+        launchConfetti();
+      } else {
+        tUpdate('It’s a draw.');
+      }
+      tNext.disabled=false;
+
+      if(tScore.X>=tTarget || tScore.O>=tTarget){
+        const champ = tScore.X>tScore.O ? 'Player X' : 'Player O';
+        setTimeout(()=>alert(`${champ} wins the match! (${tScore.X}–${tScore.O})`),50);
+      }
+    }
+    function tNextRound(){
+      tArr=Array(9).fill(''); tCur=Math.random()<0.5?'X':'O'; tLock=false; tNext.disabled=true; tUpdate(); tRender();
+    }
+    function tResetMatch(){ tScore={X:0,O:0}; tNextRound(); }
+    tNext.addEventListener('click', tNextRound);
+    tReset.addEventListener('click', tResetMatch);
+    tTargetSel.addEventListener('change', e=>{ tTarget=Number(e.target.value); tResetMatch(); });
+
+    tRender(); tUpdate();
+  </script>
+</body>
+</html>
