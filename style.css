@@ -37,16 +37,29 @@ body {
 
 /* OPTION 2: pink→orange gradient neon with thin stroke for readability */
 .arcade-header h1 {
-  font-family: "KarmaticArcade", sans-serif;
+  .arcade-header h1 {
+  font-family: 'KarmaticArcade', sans-serif;
   font-size: clamp(2.2rem, 7vw, 4rem);
+
+  /* IMPORTANT CHANGE */
+  color: #ff66c4;
+  /* REMOVE this line */
+  /* -webkit-text-fill-color: transparent; */
+
   background: linear-gradient(180deg, #ff66cc 0%, #ffb21f 80%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+
+  /* ADD THESE HERE 👇 */
+  -webkit-font-smoothing: antialiased;
+  transform: translateZ(0);
+
+  /* CLEANER GLOW */
   text-shadow:
-    0 0 6px  rgba(255,105,180,0.50),  /* neon pink outer glow */
-    0 0 12px rgba(255,153,  0,0.40),  /* soft orange mid glow */
-    0 0 28px rgba(255, 20,147,0.25);  /* deep pink aura */
-  -webkit-text-stroke: 1px #ff9b00;   /* thin darker edge for contrast */
+    0 0 2px rgba(255, 102, 196, 0.9),
+    0 0 6px rgba(255, 102, 196, 0.7),
+    0 0 12px rgba(255, 102, 196, 0.4);
+
+  -webkit-text-stroke: 1px #ff90b0;
   letter-spacing: 2px;
 }
 
