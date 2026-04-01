@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Crimz Arcade</title>
   <meta name="description" content="A hidden arcade inside Crimz." />
-
   <link rel="stylesheet" href="style.css" />
   <script src="script.js" defer></script>
 </head>
-
 <body>
   <div class="page-glow page-glow-left"></div>
   <div class="page-glow page-glow-right"></div>
@@ -18,11 +16,10 @@
     <source src="./slimeyfox-arcade-games-score-storm-480856.mp3" type="audio/mpeg" />
   </audio>
 
-  <!-- HEADER -->
   <header class="site-header">
     <div class="topbar">
       <div class="brand-pill">Crimz.fun</div>
-      <button id="music-toggle" class="music-btn">🔇</button>
+      <button id="music-toggle" class="music-btn" aria-label="Toggle music">🔇</button>
     </div>
 
     <section class="hero">
@@ -35,7 +32,6 @@
     </section>
   </header>
 
-  <!-- MAIN -->
   <main class="home-shell">
     <section class="games-section">
       <div class="section-head">
@@ -44,21 +40,24 @@
       </div>
 
       <div class="game-grid">
-
-        <!-- Memory -->
         <a href="Memory.html" class="game-card">
+          <div class="game-card-image-wrap">
+            <img src="memory-thumb.png" alt="Memory Match preview" class="game-card-image" />
+          </div>
           <div class="game-card-body">
             <div class="game-card-label-row">
-              <span class="game-badge">Quick play</span>
-              <span class="game-meta">Solo</span>
+              <span class="game-badge">2 player</span>
+              <span class="game-meta">Versus</span>
             </div>
             <h3>Memory Match</h3>
             <p>Flip, remember, and clear the board fast.</p>
           </div>
         </a>
 
-        <!-- Connect 4 -->
         <a href="connect4.html" class="game-card">
+          <div class="game-card-image-wrap">
+            <img src="connect4-thumb.png" alt="Connect 4 preview" class="game-card-image" />
+          </div>
           <div class="game-card-body">
             <div class="game-card-label-row">
               <span class="game-badge">2 player</span>
@@ -69,20 +68,24 @@
           </div>
         </a>
 
-        <!-- Tic Tac Toe -->
         <a href="tictactoe.html" class="game-card">
+          <div class="game-card-image-wrap">
+            <img src="tictactoe-thumb.png" alt="Tic Tac Toe preview" class="game-card-image" />
+          </div>
           <div class="game-card-body">
             <div class="game-card-label-row">
-              <span class="game-badge">Classic</span>
-              <span class="game-meta">Quick</span>
+              <span class="game-badge">2 player</span>
+              <span class="game-meta">Versus</span>
             </div>
             <h3>Tic Tac Toe</h3>
             <p>Simple, sharp, and always one more round.</p>
           </div>
         </a>
 
-        <!-- Snake -->
         <a href="snake.html" class="game-card">
+          <div class="game-card-image-wrap">
+            <img src="snake-thumb.png" alt="Snake preview" class="game-card-image" />
+          </div>
           <div class="game-card-body">
             <div class="game-card-label-row">
               <span class="game-badge">Arcade</span>
@@ -92,15 +95,12 @@
             <p>Eat, grow, and survive as the board gets tighter.</p>
           </div>
         </a>
-
       </div>
     </section>
   </main>
 
-  <!-- FOOTER -->
   <footer class="site-footer">
     <p>© 2025 Crimz Arcade</p>
   </footer>
-
 </body>
 </html>
