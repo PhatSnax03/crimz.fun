@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Connect 4 | Crimz Arcade</title>
+  <meta name="description" content="Play Connect 4 inside Crimz Arcade." />
   <link rel="stylesheet" href="style.css" />
   <script src="script.js" defer></script>
 </head>
@@ -72,12 +73,12 @@
 
   <script>
     function launchConfetti() {
-      const canvas = document.getElementById('confetti');
-      const ctx = canvas.getContext('2d');
+      const canvas = document.getElementById("confetti");
+      const ctx = canvas.getContext("2d");
       const pieces = [];
-      const colors = ['#FAB12F', '#1E90FF', '#FF3E3E', '#4FC3F7'];
-      const w = canvas.width = window.innerWidth;
-      const h = canvas.height = window.innerHeight;
+      const colors = ["#FAB12F", "#1E90FF", "#FF3E3E", "#4FC3F7"];
+      const w = (canvas.width = window.innerWidth);
+      const h = (canvas.height = window.innerHeight);
 
       for (let i = 0; i < 120; i++) {
         pieces.push({
@@ -121,29 +122,29 @@
     const C4_COLS = 7;
 
     let c4 = Array.from({ length: C4_ROWS }, () => Array(C4_COLS).fill(null));
-    let cPlayer = 'orange';
+    let cPlayer = "orange";
     let cOver = false;
 
-    const cBoard = document.getElementById('c4-board');
-    const cTurn = document.getElementById('c4-turn');
-    const cWin = document.getElementById('c4-winner');
-    const cReset = document.getElementById('c4-reset');
+    const cBoard = document.getElementById("c4-board");
+    const cTurn = document.getElementById("c4-turn");
+    const cWin = document.getElementById("c4-winner");
+    const cReset = document.getElementById("c4-reset");
 
     function c4Render() {
-      cBoard.innerHTML = '';
+      cBoard.innerHTML = "";
 
       for (let r = 0; r < C4_ROWS; r++) {
         for (let c = 0; c < C4_COLS; c++) {
-          const cell = document.createElement('div');
-          cell.className = 'c4-cell';
+          const cell = document.createElement("div");
+          cell.className = "c4-cell";
 
           if (c4[r][c]) {
-            const disc = document.createElement('div');
-            disc.className = 'c4-disc ' + c4[r][c];
+            const disc = document.createElement("div");
+            disc.className = "c4-disc " + c4[r][c];
             cell.appendChild(disc);
           }
 
-          cell.addEventListener('click', () => c4Drop(c));
+          cell.addEventListener("click", () => c4Drop(c));
           cBoard.appendChild(cell);
         }
       }
@@ -158,15 +159,18 @@
           c4Render();
 
           if (c4Win(r, col)) {
-            cWin.textContent = `🎉 ${cPlayer === 'orange' ? 'Player 1 (🟠)' : 'Player 2 (🔵)'} wins!`;
-            cTurn.textContent = '—';
+            cWin.textContent = `🎉 ${
+              cPlayer === "orange" ? "Player 1 (🟠)" : "Player 2 (🔵)"
+            } wins!`;
+            cTurn.textContent = "—";
             launchConfetti();
             cOver = true;
             return;
           }
 
-          cPlayer = cPlayer === 'orange' ? 'blue' : 'orange';
-          cTurn.textContent = cPlayer === 'orange' ? 'Player 1 (🟠)' : 'Player 2 (🔵)';
+          cPlayer = cPlayer === "orange" ? "blue" : "orange";
+          cTurn.textContent =
+            cPlayer === "orange" ? "Player 1 (🟠)" : "Player 2 (🔵)";
           return;
         }
       }
@@ -188,7 +192,12 @@
     }
 
     function c4Win(r, c) {
-      const dirs = [[1, 0], [0, 1], [1, 1], [1, -1]];
+      const dirs = [
+        [1, 0],
+        [0, 1],
+        [1, 1],
+        [1, -1],
+      ];
 
       for (const [dr, dc] of dirs) {
         const count = 1 + c4Count(r, c, dr, dc) + c4Count(r, c, -dr, -dc);
@@ -200,14 +209,20 @@
 
     function c4Reset() {
       c4 = Array.from({ length: C4_ROWS }, () => Array(C4_COLS).fill(null));
-      cPlayer = 'orange';
+      cPlayer = "orange";
       cOver = false;
-      cWin.textContent = '—';
-      cTurn.textContent = 'Player 1 (🟠)';
+      cWin.textContent = "—";
+      cTurn.textContent = "Player 1 (🟠)";
       c4Render();
     }
 
-    cReset.addEventListener('click', c4Reset);
+    window.addEventListener("resize", () => {
+      const canvas = document.getElementById("confetti");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    cReset.addEventListener("click", c4Reset);
     c4Render();
   </script>
 </body>
