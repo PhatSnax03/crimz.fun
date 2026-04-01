@@ -28,7 +28,7 @@
       </button>
     </div>
 
-    <section class="hero hero-panel">
+    <section class="hero hero-panel" id="hero-panel">
       <div class="hero-copy">
         <p class="eyebrow">Welcome to the grid</p>
         <h1 class="hero-title">CRIMZ ARCADE</h1>
@@ -37,11 +37,13 @@
         </p>
 
         <div class="hero-actions">
-          <a href="#games" class="hero-btn hero-btn-primary">Enter Arcade</a>
+          <button id="enter-arcade-btn" class="hero-btn hero-btn-primary" type="button">
+            Enter Arcade
+          </button>
         </div>
       </div>
 
-      <div class="hero-orbital">
+      <div class="hero-orbital" id="hero-orbital">
         <div class="hero-orb hero-orb-main"></div>
         <div class="hero-orb hero-orb-small hero-orb-pink"></div>
         <div class="hero-orb hero-orb-small hero-orb-gold"></div>
@@ -51,7 +53,7 @@
   </header>
 
   <main class="home-shell">
-    <section class="games-section" id="games">
+    <section class="games-section hidden-games" id="games">
       <div class="section-head">
         <div>
           <p class="section-kicker">Game library</p>
@@ -143,5 +145,33 @@
   <footer class="site-footer">
     <p>© 2025 Crimz Arcade</p>
   </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const enterBtn = document.getElementById("enter-arcade-btn");
+      const gamesSection = document.getElementById("games");
+      const heroOrbital = document.getElementById("hero-orbital");
+
+      if (enterBtn && gamesSection) {
+        enterBtn.addEventListener("click", function () {
+          gamesSection.classList.remove("hidden-games");
+          gamesSection.classList.add("show-games");
+
+          if (window.innerWidth <= 640 && heroOrbital) {
+            heroOrbital.style.display = "none";
+          }
+
+          enterBtn.style.display = "none";
+
+          setTimeout(() => {
+            gamesSection.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+          }, 100);
+        });
+      }
+    });
+  </script>
 </body>
 </html>
