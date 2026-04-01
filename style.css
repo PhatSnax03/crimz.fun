@@ -163,18 +163,30 @@ a {
 }
 
 .hero-title {
+  .hero-title {
   font-family: "KarmaticArcade", sans-serif;
-  font-size: clamp(2.3rem, 6.2vw, 5rem);
-  line-height: 1.04;
+  font-size: clamp(2.8rem, 5.8vw, 5.8rem);
+  line-height: 1.02;
   letter-spacing: 0.08em;
-  color: var(--pink);
+  margin-bottom: 22px;
+
+  /* fallback color (important for safety) */
+  color: #ff9a3c;
+
+  /* pink → orange gradient */
+  background: linear-gradient(90deg, #ff66cc 0%, #ff9a3c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* softer mixed glow (not harsh) */
   text-shadow:
-    0 0 2px rgba(255, 102, 204, 0.92),
-    0 0 8px rgba(255, 102, 204, 0.52),
-    0 0 20px rgba(255, 102, 204, 0.18);
+    0 0 3px rgba(255, 102, 204, 0.3),
+    0 0 8px rgba(255, 154, 60, 0.25),
+    0 0 16px rgba(255, 102, 204, 0.12);
+
   -webkit-font-smoothing: antialiased;
   text-rendering: geometricPrecision;
-  margin-bottom: 20px;
+}
 }
 
 .hero-subtitle {
