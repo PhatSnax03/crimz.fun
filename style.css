@@ -918,3 +918,49 @@ a {
     height: 52px;
   }
 }
+@keyframes glowPulse {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0);
+    opacity: 0.72;
+  }
+  25% {
+    transform: scale(1.08) translate3d(10px, 8px, 0);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(0.96) translate3d(-6px, 14px, 0);
+    opacity: 0.76;
+  }
+  75% {
+    transform: scale(1.1) translate3d(12px, -6px, 0);
+    opacity: 0.88;
+  }
+  100% {
+    transform: scale(1) translate3d(0, 0, 0);
+    opacity: 0.72;
+  }
+}
+
+@keyframes pixelDrift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(32px, 32px, 0);
+  }
+}
+
+@keyframes scanFloat {
+  0% {
+    transform: translateY(0);
+    opacity: 0.10;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 0.14;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0.10;
+  }
+}
