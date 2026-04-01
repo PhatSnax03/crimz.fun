@@ -163,7 +163,6 @@ a {
 }
 
 .hero-title {
-  .hero-title {
   font-family: "KarmaticArcade", sans-serif;
   font-size: clamp(2.8rem, 5.8vw, 5.8rem);
   line-height: 1.02;
