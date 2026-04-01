@@ -692,3 +692,162 @@ a {
     transition: none !important;
   }
 }
+/* ================= SNAKE ================= */
+
+.game-page-title {
+  font-family: "KarmaticArcade", sans-serif;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  letter-spacing: 0.06em;
+  color: #ffd27a;
+  text-align: center;
+}
+
+.snake-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.snake-wrap {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+.snake-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.snake-panel {
+  position: relative;
+  width: min(92vw, 480px);
+  margin: 0 auto;
+  padding: 14px;
+  border-radius: 24px;
+  background: rgba(20, 20, 24, 0.9);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.42);
+}
+
+#snake-canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+  background: #111318;
+}
+
+.snake-overlay {
+  position: absolute;
+  inset: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 8, 10, 0.6);
+  border-radius: 16px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.snake-overlay.hidden {
+  display: none;
+}
+
+.snake-overlay-card {
+  text-align: center;
+  background: rgba(20,20,24,0.92);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 22px 18px;
+  min-width: 220px;
+  box-shadow: 0 16px 32px rgba(0,0,0,0.35);
+}
+
+.snake-overlay-card h2 {
+  font-family: "KarmaticArcade", sans-serif;
+  font-size: 1rem;
+  color: #ff9a3c;
+  margin-bottom: 14px;
+}
+
+.snake-overlay-card p {
+  color: #d7d8dd;
+  margin-bottom: 16px;
+}
+
+.snake-controls {
+  margin-top: 18px;
+  text-align: center;
+}
+
+.snake-instructions {
+  color: #a4a6af;
+  font-size: 0.95rem;
+  margin-bottom: 14px;
+}
+
+.mobile-dpad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.dpad-row {
+  display: flex;
+  gap: 8px;
+}
+
+.dpad-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(20,20,24,0.92);
+  color: #f4f4f6;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.28);
+}
+
+.dpad-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.center-btn {
+  color: #666;
+}
+
+@media (min-width: 900px) {
+  .mobile-dpad {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .snake-topbar {
+    align-items: center;
+  }
+
+  .game-page-title {
+    font-size: 1rem;
+  }
+
+  .snake-header {
+    gap: 10px;
+  }
+
+  .dpad-btn {
+    width: 52px;
+    height: 52px;
+  }
+}
