@@ -1,22 +1,26 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const music = document.getElementById('bg-music');
-  const toggleBtn = document.getElementById('music-toggle');
+document.addEventListener("DOMContentLoaded", () => {
+  const music = document.getElementById("bg-music");
+  const toggleBtn = document.getElementById("music-toggle");
 
-  // Try to kick off autoplay (iOS/Android may require a tap)
-  if (music) {
-    const tryPlay = () => music.play().catch(() => {});
-    tryPlay();
-    document.addEventListener('touchstart', tryPlay, { once: true, passive: true });
-    document.addEventListener('click', tryPlay, { once: true });
-  }
+  if (!music || !toggleBtn) return;
 
-  if (toggleBtn && music) {
-    const setIcon = () => { toggleBtn.textContent = music.muted ? '🔇' : '🔊'; };
-    setIcon();
-    toggleBtn.addEventListener('click', () => {
-      music.muted = !music.muted;
-      setIcon();
-      if (!music.muted) music.play().catch(()=>{});
-    });
-  }
+  // Keep background music subtle
+  music.volume = 0.15;
+
+  // Start in paused state
+  toggleBtn.textContent = "🔇";
+
+  toggleBtn.addEventListener("click", async () => {
+    if (music.paused) {
+      try {
+        await music.play();
+        toggleBtn.textContent = "🔊";
+      } catch (err) {
+        console.log("Playback blocked:", err);
+      }
+    } else {
+      music.pause();
+      toggleBtn.textContent = "🔇";
+    }
+  });
 });
