@@ -4,12 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!music || !toggleBtn) return;
 
-  // Keep background music subtle
+  // subtle volume
   music.volume = 0.15;
 
-  // Start in paused state
+  // default state
   toggleBtn.textContent = "🔇";
 
+  // toggle play/pause
   toggleBtn.addEventListener("click", async () => {
     if (music.paused) {
       try {
