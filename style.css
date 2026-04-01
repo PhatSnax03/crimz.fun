@@ -42,7 +42,7 @@ html {
 
 body {
   position: relative;
-  min-height: 100svh;
+  min-height: 100dvh;
   overflow-x: hidden;
   font-family: "Poppins", system-ui, sans-serif;
   color: var(--text);
@@ -1308,13 +1308,14 @@ a {
 
   .c4-layout {
     grid-template-columns: 1fr;
-  }
-
-  .c4-sidebar {
-    order: 1;
+    gap: 18px;
   }
 
   .c4-board-wrap {
+    order: 1;
+  }
+
+  .c4-sidebar {
     order: 2;
   }
 
@@ -1331,46 +1332,177 @@ a {
 
 @media (max-width: 640px) {
   body {
-    padding: 14px;
+    padding: max(12px, env(safe-area-inset-top)) 12px max(16px, env(safe-area-inset-bottom));
+  }
+
+  .page-glow {
+    width: 320px;
+    height: 320px;
+    filter: blur(90px);
+    opacity: 0.55;
   }
 
   .topbar {
-    margin-bottom: 22px;
+    gap: 10px;
+    margin-bottom: 16px;
   }
 
   .brand-lockup {
-    gap: 10px;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .brand-pill {
+    padding: 8px 12px;
+    font-size: 0.84rem;
+    max-width: 52vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .brand-status {
+    padding: 7px 10px;
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+  }
+
+  .music-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    flex-shrink: 0;
   }
 
   .hero-panel {
-    padding: 22px 18px;
-    gap: 20px;
+    padding: 18px 16px;
+    gap: 16px;
+    border-radius: 24px;
+  }
+
+  .eyebrow {
+    margin-bottom: 12px;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 12vw, 3.3rem);
+    line-height: 0.95;
+    margin-bottom: 14px;
+    letter-spacing: 0.05em;
   }
 
   .hero-subtitle {
-    font-size: 0.96rem;
+    font-size: 0.98rem;
+    line-height: 1.55;
   }
 
   .hero-actions {
-    gap: 12px;
-    margin-top: 22px;
+    gap: 10px;
+    margin-top: 18px;
   }
 
   .hero-btn {
     width: 100%;
+    min-height: 56px;
+    border-radius: 16px;
   }
 
   .hero-note {
     width: 100%;
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .hero-orbital {
+    min-height: 200px;
+    max-height: 230px;
+    border-radius: 20px;
+  }
+
+  .hero-grid {
+    background-size: 24px 24px;
+  }
+
+  .hero-orb-main {
+    width: 150px;
+    height: 150px;
+  }
+
+  .hero-orb-small {
+    width: 34px;
+    height: 34px;
+  }
+
+  .games-section {
+    margin-top: 20px;
+  }
+
+  .section-head {
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .section-kicker {
+    margin-bottom: 4px;
+    font-size: 0.68rem;
+  }
+
+  .section-head h2 {
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  .section-head p {
+    font-size: 0.95rem;
+    line-height: 1.45;
   }
 
   .game-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 14px;
+  }
+
+  .game-card {
+    border-radius: 20px;
+  }
+
+  .game-card-image-wrap {
+    aspect-ratio: 1.28 / 1;
   }
 
   .game-card-body {
-    padding: 16px;
+    padding: 14px;
+  }
+
+  .game-card-topline {
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .game-card-topline h3 {
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+
+  .game-meta {
+    font-size: 0.68rem;
+  }
+
+  .game-card-body p {
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .game-card-footer {
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+
+  .site-footer {
+    margin-top: 28px;
+    font-size: 0.82rem;
   }
 
   .mem-header,
@@ -1383,6 +1515,16 @@ a {
 
   .pill {
     min-width: 0;
+    padding: 9px 12px;
+    border-radius: 12px;
+  }
+
+  .pill strong {
+    font-size: 0.76rem;
+  }
+
+  .pill span {
+    font-size: 1.05rem;
   }
 
   .mem-grid {
@@ -1394,6 +1536,7 @@ a {
   .ttt-board {
     width: min(95vw, 420px);
     gap: 6px;
+    margin-top: 8px;
   }
 
   .ttt-cell {
@@ -1412,43 +1555,202 @@ a {
     gap: 10px;
   }
 
+  .snake-panel {
+    padding: 12px;
+    border-radius: 20px;
+  }
+
   .dpad-btn {
     width: 52px;
     height: 52px;
   }
 
+  .game-shell {
+    padding-top: 0;
+  }
+
   .game-topbar {
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .back-link {
+    min-height: 42px;
+    padding: 0 12px;
+    border-radius: 12px;
+    font-size: 0.92rem;
   }
 
   .game-stage {
-    padding: 22px 18px 20px;
-  }
-
-  .c4-board-frame {
-    padding: 10px;
+    margin-bottom: 16px;
+    padding: 18px 14px 16px;
     border-radius: 22px;
   }
 
-  .c4-board-frame .c4-board {
-    gap: 6px;
-    padding: 8px;
+  .game-kicker {
+    margin-bottom: 8px;
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+  }
+
+  .game-stage-title {
+    font-size: clamp(1.3rem, 8vw, 2rem);
+    line-height: 1.05;
+    margin-bottom: 10px;
+  }
+
+  .game-stage-subtitle {
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .game-panel {
+    padding: 14px;
     border-radius: 18px;
+  }
+
+  .panel-label {
+    margin-bottom: 8px;
+    font-size: 0.66rem;
+  }
+
+  .panel-title {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .panel-text {
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .c4-layout {
+    gap: 14px;
+  }
+
+  .c4-board-wrap {
+    order: 1;
+  }
+
+  .c4-sidebar {
+    order: 2;
+    gap: 12px;
+  }
+
+  .c4-board-frame {
+    padding: 8px;
+    border-radius: 20px;
+  }
+
+  .c4-board-frame .c4-board {
+    gap: 5px;
+    padding: 7px;
+    border-radius: 16px;
   }
 
   .c4-status-grid {
     grid-template-columns: 1fr;
+    gap: 10px;
   }
 
   .c4-actions {
     flex-direction: column;
+    gap: 8px;
+  }
+
+  .c4-actions .btn,
+  .c4-actions .btn.ghost {
+    width: 100%;
+    min-height: 54px;
+    padding: 0 14px;
+    border-radius: 16px;
+    flex: 0 0 auto;
+  }
+
+  .bar {
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    min-height: 48px;
+    padding: 10px 14px;
+    font-size: 0.95rem;
   }
 }
 
 @media (max-width: 420px) {
+  body {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .topbar {
+    margin-bottom: 14px;
+  }
+
+  .brand-pill {
+    max-width: 48vw;
+    font-size: 0.8rem;
+  }
+
+  .brand-status {
+    display: none;
+  }
+
+  .hero-panel {
+    padding: 16px 14px;
+    gap: 14px;
+  }
+
   .hero-title {
-    letter-spacing: 0.05em;
+    font-size: clamp(1.8rem, 11vw, 2.8rem);
+    letter-spacing: 0.04em;
+  }
+
+  .hero-subtitle {
+    font-size: 0.93rem;
+  }
+
+  .hero-orbital {
+    min-height: 180px;
+    max-height: 210px;
+  }
+
+  .hero-orb-main {
+    width: 132px;
+    height: 132px;
+  }
+
+  .section-head p {
+    font-size: 0.9rem;
+  }
+
+  .game-card-body {
+    padding: 13px;
+  }
+
+  .game-stage {
+    padding: 16px 12px 14px;
+  }
+
+  .game-panel {
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .c4-board-frame {
+    padding: 7px;
+    border-radius: 18px;
+  }
+
+  .c4-board-frame .c4-board {
+    gap: 4px;
+    padding: 6px;
+    border-radius: 14px;
   }
 
   .mem-grid {
