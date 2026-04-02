@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Breakout | Crimz Arcade</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="breakout.js" defer></script>
+
+  <style>
+    .breakout-wrap {
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .breakout-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .breakout-layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .breakout-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .breakout-panel {
+      padding: 20px;
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)),
+        rgba(16, 16, 22, 0.88);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.34);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .breakout-panel-label {
+      color: #ffcb70;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 10px;
+    }
+
+    .breakout-panel-title {
+      font-family: "KarmaticArcade", sans-serif;
+      font-size: 0.95rem;
+      color: #f6f6f8;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .breakout-panel-text {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.94rem;
+    }
+
+    .breakout-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .breakout-actions .btn {
+      width: 100%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .breakout-stage {
+      padding: 18px;
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)),
+        rgba(14, 14, 20, 0.9);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow:
+        0 24px 54px rgba(0,0,0,0.42),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .breakout-canvas-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    #breakout-canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at top, rgba(255, 177, 74, 0.05), transparent 35%),
+        linear-gradient(180deg, #11131a 0%, #0b0c12 100%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    .breakout-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      background: rgba(8, 8, 10, 0.58);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .breakout-overlay.hidden {
+      display: none;
+    }
+
+    .breakout-overlay-card {
+      text-align: center;
+      background: rgba(20,20,24,0.92);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 22px 18px;
+      min-width: 240px;
+      box-shadow: 0 16px 32px rgba(0,0,0,0.35);
+    }
+
+    .breakout-overlay-card h2 {
+      font-family: "KarmaticArcade", sans-serif;
+      font-size: 1rem;
+      color: #ff9a3c;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .breakout-overlay-card p {
+      color: #d7d8dd;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .breakout-mobile-controls {
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .breakout-mobile-row {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .breakout-touch-btn {
+      width: 84px;
+      height: 84px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, #1c1e26, #111218);
+      color: #f4f4f6;
+      font-size: 1.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.05),
+        0 10px 20px rgba(0,0,0,0.35);
+      transition: all 0.12s ease;
+    }
+
+    .breakout-touch-btn:active {
+      transform: scale(0.94);
+      box-shadow:
+        inset 0 2px 6px rgba(0,0,0,0.5),
+        0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    @media (max-width: 900px) {
+      .breakout-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (min-width: 901px) {
+      .breakout-mobile-controls {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .breakout-stage {
+        padding: 10px;
+        border-radius: 20px;
+      }
+
+      .breakout-panel {
+        padding: 14px;
+        border-radius: 18px;
+      }
+
+      .breakout-touch-btn {
+        width: 92px;
+        height: 92px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-glow page-glow-left"></div>
+  <div class="page-glow page-glow-right"></div>
+  <div class="page-noise"></div>
+
+  <audio id="bg-music" loop>
+    <source src="./slimeyfox-arcade-games-score-storm-480856.mp3" type="audio/mpeg" />
+  </audio>
+
+  <main class="game-shell breakout-wrap">
+    <div class="game-topbar">
+      <a class="back-link" href="index.html?arcade=open">⬅ Back</a>
+      <h1 class="game-page-title">BREAKOUT</h1>
+      <button id="music-toggle" class="music-btn" aria-label="Toggle music">🔇</button>
+    </div>
+
+    <section class="game-stage">
+      <p class="game-kicker">Arcade classic</p>
+      <h2 class="game-stage-title">Smash the wall</h2>
+      <p class="game-stage-subtitle">
+        Keep the ball alive, clear every brick, and don’t let it slip past the paddle.
+      </p>
+    </section>
+
+    <section class="breakout-layout">
+      <aside class="breakout-sidebar">
+        <div class="breakout-panel">
+          <div class="breakout-panel-label">Game status</div>
+          <div class="breakout-panel-title">Score / Lives / Level</div>
+          <div class="breakout-panel-text">
+            <div>Score: <strong id="score">0</strong></div>
+            <div style="margin-top: 8px;">Lives: <strong id="lives">3</strong></div>
+            <div style="margin-top: 8px;">Level: <strong id="level">1</strong></div>
+          </div>
+
+          <div class="breakout-actions">
+            <button id="start-btn" class="btn" type="button">Start game</button>
+            <button id="restart-btn" class="btn ghost" type="button">Restart</button>
+          </div>
+        </div>
+
+        <div class="breakout-panel">
+          <div class="breakout-panel-label">How to play</div>
+          <div class="breakout-panel-title">Simple and addictive</div>
+          <div class="breakout-panel-text">
+            On desktop, use the left and right arrow keys. On mobile, use the touch buttons below the board.
+          </div>
+        </div>
+      </aside>
+
+      <section class="breakout-stage">
+        <div class="breakout-canvas-wrap">
+          <canvas id="breakout-canvas" width="700" height="500"></canvas>
+
+          <div id="breakout-overlay" class="breakout-overlay">
+            <div class="breakout-overlay-card">
+              <h2 id="overlay-title">BREAKOUT</h2>
+              <p id="overlay-text">Hit start and clear the wall.</p>
+              <button id="overlay-btn" class="btn" type="button">Play</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="breakout-mobile-controls">
+          <p class="snake-instructions">Tap to move the paddle</p>
+          <div class="breakout-mobile-row">
+            <button class="breakout-touch-btn" id="move-left-btn" type="button">◀</button>
+            <button class="breakout-touch-btn" id="move-right-btn" type="button">▶</button>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
