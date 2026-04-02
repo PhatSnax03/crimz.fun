@@ -10,59 +10,69 @@
 <body>
   <div class="page-glow page-glow-left"></div>
   <div class="page-glow page-glow-right"></div>
+  <div class="page-noise"></div>
 
   <audio id="bg-music" loop>
     <source src="./slimeyfox-arcade-games-score-storm-480856.mp3" type="audio/mpeg" />
   </audio>
 
-  <header class="arcade-header snake-topbar">
-    <a class="back-link" href="index.html?arcade=open">⬅ Back</a>
-    <h1 class="game-page-title">SNAKE</h1>
-    <button id="music-toggle" class="music-btn" aria-label="Toggle music">🔇</button>
-  </header>
+  <main class="game-shell">
+    <header class="game-topbar">
+      <a class="back-link" href="index.html?arcade=open">⬅ Back</a>
+      <button id="music-toggle" class="music-btn" aria-label="Toggle music">🔇</button>
+    </header>
 
-  <main class="snake-wrap">
-    <div class="snake-header">
-      <div class="pill">
-        <strong>Score</strong>
-        <span id="score">0</span>
+    <section class="game-stage center">
+      <p class="game-kicker">Solo</p>
+      <h1 class="game-stage-title">SNAKE</h1>
+      <p class="game-stage-subtitle">
+        Eat, grow, stay sharp, and survive as the board gets tighter.
+      </p>
+    </section>
+
+    <section class="snake-wrap">
+      <div class="snake-header">
+        <div class="pill">
+          <strong>Score</strong>
+          <span id="score">0</span>
+        </div>
+
+        <div class="pill">
+          <strong>Best</strong>
+          <span id="best-score">0</span>
+        </div>
+
+        <button class="btn" id="restart-btn">Restart</button>
       </div>
 
-      <div class="pill">
-        <strong>Best</strong>
-        <span id="best-score">0</span>
-      </div>
+      <section class="snake-panel">
+        <canvas id="snake-canvas" width="400" height="400" aria-label="Snake game board"></canvas>
 
-      <button class="btn" id="restart-btn">Restart</button>
-    </div>
+        <div class="snake-overlay hidden" id="game-over-overlay">
+          <div class="snake-overlay-card">
+            <h2>Game Over</h2>
+            <p>Your score: <span id="final-score">0</span></p>
+            <button class="btn" id="play-again-btn">Play Again</button>
+          </div>
+        </div>
+      </section>
 
-    <section class="snake-panel">
-      <canvas id="snake-canvas" width="400" height="400" aria-label="Snake game board"></canvas>
+      <div class="snake-controls">
+        <p class="snake-instructions">
+          Use arrow keys on desktop or tap the controls on mobile.
+        </p>
 
-      <div class="snake-overlay hidden" id="game-over-overlay">
-        <div class="snake-overlay-card">
-          <h2>Game Over</h2>
-          <p>Your score: <span id="final-score">0</span></p>
-          <button class="btn" id="play-again-btn">Play Again</button>
+        <div class="mobile-dpad">
+          <button class="dpad-btn" data-dir="up">↑</button>
+          <div class="dpad-row">
+            <button class="dpad-btn" data-dir="left">←</button>
+            <button class="dpad-btn center-btn" disabled>•</button>
+            <button class="dpad-btn" data-dir="right">→</button>
+          </div>
+          <button class="dpad-btn" data-dir="down">↓</button>
         </div>
       </div>
     </section>
-
-    <div class="snake-controls">
-      <p class="snake-instructions">
-        Use arrow keys on desktop or tap the controls on mobile.
-      </p>
-
-      <div class="mobile-dpad">
-        <button class="dpad-btn" data-dir="up">↑</button>
-        <div class="dpad-row">
-          <button class="dpad-btn" data-dir="left">←</button>
-          <button class="dpad-btn center-btn" disabled>•</button>
-          <button class="dpad-btn" data-dir="right">→</button>
-        </div>
-        <button class="dpad-btn" data-dir="down">↓</button>
-      </div>
-    </div>
   </main>
 </body>
 </html>
