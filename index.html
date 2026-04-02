@@ -56,10 +56,9 @@
     <section class="games-section hidden-games" id="games">
       <div class="section-head">
         <div>
-          
           <h2>Pick a game</h2>
         </div>
-        <p>Quick, Simple, Ready to roll.</p>
+        <p>Quick, simple, ready to roll.</p>
       </div>
 
       <div class="game-grid">
@@ -152,24 +151,40 @@
       const gamesSection = document.getElementById("games");
       const heroOrbital = document.getElementById("hero-orbital");
 
-      if (enterBtn && gamesSection) {
-        enterBtn.addEventListener("click", function () {
-          gamesSection.classList.remove("hidden-games");
-          gamesSection.classList.add("show-games");
+      function openArcade(autoScroll = true) {
+        if (!gamesSection) return;
 
-          if (window.innerWidth <= 640 && heroOrbital) {
-            heroOrbital.style.display = "none";
-          }
+        gamesSection.classList.remove("hidden-games");
+        gamesSection.classList.add("show-games");
 
+        if (window.innerWidth <= 640 && heroOrbital) {
+          heroOrbital.style.display = "none";
+        }
+
+        if (enterBtn) {
           enterBtn.style.display = "none";
+        }
 
+        if (autoScroll) {
           setTimeout(() => {
             gamesSection.scrollIntoView({
               behavior: "smooth",
               block: "start"
             });
           }, 100);
+        }
+      }
+
+      if (enterBtn) {
+        enterBtn.addEventListener("click", function () {
+          openArcade(true);
         });
+      }
+
+      /* 🔥 THIS FIXES YOUR BACK BUTTON ISSUE */
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("arcade") === "open") {
+        openArcade(false);
       }
     });
   </script>
